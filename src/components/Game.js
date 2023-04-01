@@ -1,5 +1,6 @@
 import React from "react"
 import { useState } from "react"
+import { motion } from "framer-motion"
 
 export default function Game() {
   const [currency, setCurrency] = useState(0)
@@ -18,22 +19,32 @@ export default function Game() {
           ${currency}
         </p>
       </div>
-      <button
+      <motion.button
         onClick={handleHarvest}
         className="text-2xl p-10 rounded-2xl bg-amber-700 font-semibold shadow-xl"
+        whileTap={{ scale: 1.05 }}
       >
         Harvest
-      </button>
+      </motion.button>
       <ul className="flex space-x-2 mb-6">
-        <li className="text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md">
+        <motion.li
+          whileTap={{ scale: 1.05 }}
+          className="text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
+        >
           Crop-type
-        </li>
-        <li className="text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md">
+        </motion.li>
+        <motion.li
+          whileTap={{ scale: 1.05 }}
+          className="text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
+        >
           Upgrades
-        </li>
-        <li className="text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md">
+        </motion.li>
+        <motion.li
+          whileTap={{ scale: 1.05 }}
+          className="text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
+        >
           Settings
-        </li>
+        </motion.li>
       </ul>
     </div>
   )
