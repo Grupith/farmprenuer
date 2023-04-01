@@ -1,13 +1,14 @@
-import React from "react"
-import { useState } from "react"
-import { motion } from "framer-motion"
+import React from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Game() {
-  const [currency, setCurrency] = useState(0)
+  const [currency, setCurrency] = useState(0);
+  const [currencyPerSecond, setCurrencyPerSecond] = useState();
 
   const handleHarvest = () => {
-    setCurrency(currency + 1)
-  }
+    setCurrency(currency + 1);
+  };
 
   return (
     <div className="bg-gray-800 h-screen text-gray-300 flex flex-col justify-between items-center overflow-x-hidden">
@@ -17,6 +18,9 @@ export default function Game() {
         </h1>
         <p className="mt-32 font-semibold text-5xl text-green-700 w-screen text-center">
           ${currency}
+        </p>
+        <p className="font-medium text-2xl w-screen text-center mt-3">
+          ${!currencyPerSecond && "0"} per second
         </p>
       </div>
       <motion.button
@@ -47,5 +51,5 @@ export default function Game() {
         </motion.li>
       </ul>
     </div>
-  )
+  );
 }
