@@ -1,9 +1,16 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Game from "./components/Game"
+
 function App() {
   return (
-    <div>
-      <h1 className='text-3xl'>Farmprenuer</h1>
-    </div>
-  );
+    <BrowserRouter>
+      <div>
+        <Routes>
+          <Route path="/" element={<Game />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
