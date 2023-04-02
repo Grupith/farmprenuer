@@ -6,7 +6,7 @@ export default function Modal({
   handleClose,
   activeMenuButton,
   upgrades,
-  setUpgrades,
+  purchaseUpgrade,
 }) {
   const fadeIn = {
     hidden: {
@@ -22,6 +22,7 @@ export default function Modal({
       opacity: 0,
     },
   }
+
   switch (activeMenuButton) {
     case "crop-type":
       return (
@@ -60,6 +61,9 @@ export default function Modal({
               <div
                 key={upgrade.id}
                 className="rounded-lg shadow-lg p-3 flex items-center w-full justify-between mt-4 bg-amber-800 hover:bg-amber-700 cursor-pointer"
+                onClick={() => {
+                  purchaseUpgrade(upgrade.id)
+                }}
               >
                 <div>
                   <p className="text-4xl">{upgrade.owned}</p>

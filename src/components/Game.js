@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(0)
+  const [currency, setCurrency] = useState(10000)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
@@ -31,6 +31,39 @@ export default function Game() {
       owned: 0,
     },
   ])
+
+  const purchaseUpgrade = (upgradeId) => {
+    console.log("purchaseUpgrade function ran with", upgradeId)
+    const upgrade = upgrades.find((u) => u.id === upgradeId)
+
+    if (!upgrade) {
+      console.log(`Upgrade with id ${upgradeId} not found`)
+      return
+    }
+    // Check if user has enough currency
+    if (currency < upgrade.price) {
+      alert("You do not have enough money!")
+      return
+    }
+    // Subtract the cost of the upgrade from users currency
+    setCurrency(currency - upgrade.price)
+
+    // Update how many upgrades a user has bought
+    const updatedUpgrades = upgrades.map((u) => {
+      if (u.id === upgradeId) {
+        return {
+          ...u,
+          owned: u.owned + 1,
+        }
+      }
+      return u
+    })
+
+    setUpgrades(updatedUpgrades)
+
+    // Add the the upgrades multiplier to the currencyPerSecond
+    setCurrencyPerSecond((prevCPS) => prevCPS + upgrade.multiplier)
+  }
 
   const open = (button) => {
     setModalOpen(true)
@@ -63,6 +96,7 @@ export default function Game() {
             activeMenuButton={activeMenuButton}
             upgrades={upgrades}
             setUpgrades={setUpgrades}
+            purchaseUpgrade={purchaseUpgrade}
           />
         )}
         <div className="mt-2 flex flex-col items-center">
