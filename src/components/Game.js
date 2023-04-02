@@ -45,7 +45,7 @@ export default function Game() {
       console.log(`Upgrade with id ${upgradeId} not found`)
       return
     }
-    // Check if user has enough currency
+    // Only allow if user has enough currency to purchase
     if (currency < upgrade.price) {
       console.log(
         `Player does not have enough money to purchase ${upgrade.name}`

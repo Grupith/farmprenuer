@@ -33,8 +33,10 @@ export default function Upgrade({
   return (
     <div
       className={`rounded-lg shadow-lg p-3 flex relative items-center w-full justify-between mt-4 select-none ${
-        upgradeUnlocked ? "bg-amber-800" : "bg-red-900 hover:bg-red-800"
-      } hover:bg-amber-700 cursor-pointer`}
+        upgradeUnlocked
+          ? "bg-green-800 hover:bg-green-700"
+          : "bg-red-900 hover:bg-red-800"
+      } cursor-pointer`}
       onClick={handlePurchase}
     >
       <div>
