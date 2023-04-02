@@ -1,12 +1,14 @@
 import React from "react"
 import Backdrop from "./Backdrop"
 import { motion } from "framer-motion"
+import Upgrade from "./Upgrade"
 
 export default function Modal({
   handleClose,
   activeMenuButton,
   upgrades,
   purchaseUpgrade,
+  currency,
 }) {
   const fadeIn = {
     hidden: {
@@ -58,24 +60,17 @@ export default function Modal({
               Click on an upgrade you would like to purchase
             </p>
             {upgrades.map((upgrade) => (
-              <div
+              <Upgrade
                 key={upgrade.id}
-                className="rounded-lg shadow-lg p-3 flex items-center w-full justify-between mt-4 bg-amber-800 hover:bg-amber-700 cursor-pointer"
-                onClick={() => {
-                  purchaseUpgrade(upgrade.id)
-                }}
-              >
-                <div>
-                  <p className="text-4xl">{upgrade.owned}</p>
-                </div>
-                <div className="flex flex-col">
-                  <h3 className="text-xl font-medium">{upgrade.name}</h3>
-                  <p>earns ${upgrade.multiplier} per second</p>
-                </div>
-                <div>
-                  <p className="text-xl">${upgrade.price}</p>
-                </div>
-              </div>
+                id={upgrade.id}
+                owned={upgrade.owned}
+                name={upgrade.name}
+                multiplier={upgrade.multiplier}
+                price={upgrade.price}
+                purchaseUpgrade={purchaseUpgrade}
+                currency={currency}
+                handleClose={handleClose}
+              />
             ))}
             <div className="flex justify-center mt-6">
               <button onClick={handleClose} className="text-lg">

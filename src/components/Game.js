@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(10000)
+  const [currency, setCurrency] = useState(99)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
@@ -13,7 +13,7 @@ export default function Game() {
       id: 1,
       name: "Employee",
       price: 100,
-      multiplier: 2,
+      multiplier: 0.25,
       owned: 0,
     },
     {
@@ -33,7 +33,6 @@ export default function Game() {
   ])
 
   const purchaseUpgrade = (upgradeId) => {
-    console.log("purchaseUpgrade function ran with", upgradeId)
     const upgrade = upgrades.find((u) => u.id === upgradeId)
 
     if (!upgrade) {
@@ -42,7 +41,9 @@ export default function Game() {
     }
     // Check if user has enough currency
     if (currency < upgrade.price) {
-      alert("You do not have enough money!")
+      console.log(
+        `Player does not have enough money to purchase ${upgrade.name}`
+      )
       return
     }
     // Subtract the cost of the upgrade from users currency
@@ -87,62 +88,64 @@ export default function Game() {
   }, [currencyPerSecond])
 
   return (
-    <AnimatePresence initial={false} wait={true} onExitComplete={() => null}>
-      <div className="bg-gray-800 h-screen text-gray-300 flex flex-col justify-between items-center overflow-x-hidden">
+    <div className="bg-gray-800 h-screen text-gray-300 flex flex-col justify-between items-center overflow-x-hidden">
+      <AnimatePresence initial={false} wait={true} onExitComplete={() => null}>
         {modalOpen && (
           <Modal
+            key="modal"
             modalOpen={modalOpen}
             handleClose={close}
             activeMenuButton={activeMenuButton}
             upgrades={upgrades}
             setUpgrades={setUpgrades}
             purchaseUpgrade={purchaseUpgrade}
+            currency={currency}
           />
         )}
-        <div className="mt-2 flex flex-col items-center">
-          <h1 className="text-4xl font-bold text-gray-300">
-            <span className="text-amber-600">Farm</span>prenuer
-          </h1>
-          <p className="mt-32 font-semibold text-5xl text-green-700 w-screen text-center">
-            ${currency}
+      </AnimatePresence>
+      <div className="mt-2 flex flex-col items-center">
+        <h1 className="text-4xl font-bold text-gray-300">
+          <span className="text-amber-600">Farm</span>prenuer
+        </h1>
+        <p className="mt-32 font-semibold text-5xl text-green-700 w-screen text-center">
+          ${currency.toFixed(2)}
+        </p>
+        {upgrades.some((u) => u.owned > 0) && (
+          <p className=" text-xl w-screen text-center mt-6">
+            Earns ${currencyPerSecond.toFixed(2)} per second
           </p>
-          {upgrades.some((u) => u.owned > 0) && (
-            <p className=" text-xl w-screen text-center mt-6">
-              Earns ${currencyPerSecond} per second
-            </p>
-          )}
-        </div>
-        <motion.button
-          onClick={handleHarvestClick}
-          className="text-2xl p-10 rounded-2xl bg-amber-800 font-semibold shadow-xl"
-          whileTap={{ scale: 1.05 }}
-        >
-          Harvest
-        </motion.button>
-        <ul className="flex space-x-2 mb-20">
-          <motion.li
-            whileTap={{ scale: 1.05 }}
-            className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
-            onClick={() => (modalOpen ? close() : open("crop-type"))}
-          >
-            Crop-type
-          </motion.li>
-          <motion.li
-            whileTap={{ scale: 1.05 }}
-            className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
-            onClick={() => (modalOpen ? close() : open("upgrades"))}
-          >
-            Upgrades
-          </motion.li>
-          <motion.li
-            whileTap={{ scale: 1.05 }}
-            className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
-            onClick={() => (modalOpen ? close() : open("settings"))}
-          >
-            Settings
-          </motion.li>
-        </ul>
+        )}
       </div>
-    </AnimatePresence>
+      <motion.button
+        onClick={handleHarvestClick}
+        className="text-2xl p-10 rounded-2xl bg-amber-800 font-semibold shadow-xl"
+        whileTap={{ scale: 1.05 }}
+      >
+        Harvest
+      </motion.button>
+      <ul className="flex space-x-2 mb-20">
+        <motion.li
+          whileTap={{ scale: 1.05 }}
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
+          onClick={() => (modalOpen ? close() : open("crop-type"))}
+        >
+          Crop-type
+        </motion.li>
+        <motion.li
+          whileTap={{ scale: 1.05 }}
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
+          onClick={() => (modalOpen ? close() : open("upgrades"))}
+        >
+          Upgrades
+        </motion.li>
+        <motion.li
+          whileTap={{ scale: 1.05 }}
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
+          onClick={() => (modalOpen ? close() : open("settings"))}
+        >
+          Settings
+        </motion.li>
+      </ul>
+    </div>
   )
 }
