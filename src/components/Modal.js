@@ -12,6 +12,7 @@ export default function Modal({
   fadeInOut,
   upgradePing,
   setUpgradePing,
+  setNewUpgradeMenuPing,
 }) {
   switch (activeMenuButton) {
     case "crop-type":
@@ -35,7 +36,7 @@ export default function Modal({
         <Backdrop onClick={handleClose}>
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-800 rounded-xl fixed inset-0 h-fit w-fit m-auto p-5"
+            className="bg-gray-800 rounded-xl fixed inset-0 h-fit w-fit m-auto p-5 select-none "
             variants={fadeInOut}
             initial="hidden"
             animate="visible"
@@ -61,6 +62,7 @@ export default function Modal({
                 fadeInOut={fadeInOut}
                 upgradePing={upgradePing}
                 setUpgradePing={setUpgradePing}
+                setNewUpgradeMenuPing={setNewUpgradeMenuPing}
               />
             ))}
             <div className="flex justify-center mt-6">

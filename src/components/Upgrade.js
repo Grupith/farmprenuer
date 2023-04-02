@@ -13,6 +13,7 @@ export default function Upgrade({
   fadeInOut,
   upgradePing,
   setUpgradePing,
+  setNewUpgradeMenuPing,
 }) {
   const [upgradeUnlocked, setUpgradeUnlocked] = useState(false)
 
@@ -26,8 +27,8 @@ export default function Upgrade({
   const handlePurchase = () => {
     purchaseUpgrade(id)
     if (upgradeUnlocked) {
-      handleClose()
       setUpgradePing(false)
+      setNewUpgradeMenuPing(false)
     }
   }
 

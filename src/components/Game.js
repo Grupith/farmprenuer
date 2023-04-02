@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect } from "react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
@@ -32,7 +32,7 @@ export default function Game() {
     },
   ])
   const [upgradePing, setUpgradePing] = useState(false)
-  const achieveOne = useRef(false)
+  const [newUpgradeMenuPing, setNewUpgradeMenuPing] = useState(false)
 
   const purchaseUpgrade = (upgradeId) => {
     const upgrade = upgrades.find((u) => u.id === upgradeId)
@@ -82,7 +82,9 @@ export default function Game() {
   }
 
   // Achievements
-  const achievementOne = () => {
+  const reachUpgrade = () => {
+    setNewUpgradeMenuPing(true)
+    console.log("has new upgrade true")
     setUpgradePing(true)
   }
 
@@ -95,10 +97,11 @@ export default function Game() {
   }, [currencyPerSecond])
 
   // Check if user reached a certain currency
+
+  //TODO: trigger reachUpgrade only if the user hit that upgrade for first time
   useEffect(() => {
-    if (currency >= 100 && !achieveOne.current) {
-      achieveOne.current = true
-      achievementOne()
+    if (currency >= 100) {
+      reachUpgrade()
     }
   }, [currency])
 
@@ -133,6 +136,7 @@ export default function Game() {
             fadeInOut={fadeInOut}
             upgradePing={upgradePing}
             setUpgradePing={setUpgradePing}
+            setNewUpgradeMenuPing={setNewUpgradeMenuPing}
           />
         )}
       </AnimatePresence>
@@ -168,7 +172,9 @@ export default function Game() {
           whileTap={{ scale: 1.05 }}
           className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none relative"
           onClick={() =>
-            setUpgradePing(false) && modalOpen ? close() : open("upgrades")
+            setUpgradePing(false) && setActiveMenuButton(false) && modalOpen
+              ? close()
+              : open("upgrades")
           }
         >
           Upgrades
@@ -177,7 +183,7 @@ export default function Game() {
             wait={true}
             onExitComplete={() => null}
           >
-            {upgradePing && (
+            {newUpgradeMenuPing && upgradePing && (
               <motion.span
                 className="absolute flex h-4 w-4 top-0 right-0 -mt-1 -mr-1"
                 variants={fadeInOut}
