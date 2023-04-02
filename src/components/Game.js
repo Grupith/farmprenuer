@@ -1,13 +1,36 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
 export default function Game() {
   const [currency, setCurrency] = useState(0)
-  const [currencyPerSecond, setCurrencyPerSecond] = useState()
+  const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
+  const [upgrades, setUpgrades] = useState([
+    {
+      id: 1,
+      name: "Employee",
+      price: 100,
+      multiplier: 2,
+      owned: 0,
+    },
+    {
+      id: 2,
+      name: "Tractor",
+      price: 500,
+      multiplier: 5,
+      owned: 0,
+    },
+    {
+      id: 3,
+      name: "Silo",
+      price: 1000,
+      multiplier: 10,
+      owned: 0,
+    },
+  ])
 
   const open = (button) => {
     setModalOpen(true)
@@ -22,6 +45,14 @@ export default function Game() {
     setCurrency(currency + 1)
   }
 
+  // Increment currency by currencyPerSecond every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrency((currency) => currency + currencyPerSecond)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [currencyPerSecond])
+
   return (
     <AnimatePresence initial={false} wait={true} onExitComplete={() => null}>
       <div className="bg-gray-800 h-screen text-gray-300 flex flex-col justify-between items-center overflow-x-hidden">
@@ -30,6 +61,8 @@ export default function Game() {
             modalOpen={modalOpen}
             handleClose={close}
             activeMenuButton={activeMenuButton}
+            upgrades={upgrades}
+            setUpgrades={setUpgrades}
           />
         )}
         <div className="mt-2 flex flex-col items-center">
@@ -45,7 +78,7 @@ export default function Game() {
         </div>
         <motion.button
           onClick={handleHarvest}
-          className="text-2xl p-10 rounded-2xl bg-amber-700 font-semibold shadow-xl"
+          className="text-2xl p-10 rounded-2xl bg-amber-800 font-semibold shadow-xl"
           whileTap={{ scale: 1.05 }}
         >
           Harvest
