@@ -1,10 +1,10 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(99)
+  const [currency, setCurrency] = useState(97)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
@@ -31,6 +31,8 @@ export default function Game() {
       owned: 0,
     },
   ])
+  const [upgradePing, setUpgradePing] = useState(false)
+  const achieveOne = useRef(false)
 
   const purchaseUpgrade = (upgradeId) => {
     const upgrade = upgrades.find((u) => u.id === upgradeId)
@@ -79,6 +81,11 @@ export default function Game() {
     setCurrency(currency + 1)
   }
 
+  // Achievements
+  const achievementOne = () => {
+    setUpgradePing(true)
+  }
+
   // Increment currency by currencyPerSecond every second
   useEffect(() => {
     const interval = setInterval(() => {
@@ -86,6 +93,29 @@ export default function Game() {
     }, 1000)
     return () => clearInterval(interval)
   }, [currencyPerSecond])
+
+  // Check if user reached a certain currency
+  useEffect(() => {
+    if (currency >= 100 && !achieveOne.current) {
+      achieveOne.current = true
+      achievementOne()
+    }
+  }, [currency])
+
+  const fadeInOut = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.2,
+      },
+    },
+    exit: {
+      opacity: 0,
+    },
+  }
 
   return (
     <div className="bg-gray-800 h-screen text-gray-300 flex flex-col justify-between items-center overflow-x-hidden">
@@ -100,6 +130,9 @@ export default function Game() {
             setUpgrades={setUpgrades}
             purchaseUpgrade={purchaseUpgrade}
             currency={currency}
+            fadeInOut={fadeInOut}
+            upgradePing={upgradePing}
+            setUpgradePing={setUpgradePing}
           />
         )}
       </AnimatePresence>
@@ -133,10 +166,30 @@ export default function Game() {
         </motion.li>
         <motion.li
           whileTap={{ scale: 1.05 }}
-          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none"
-          onClick={() => (modalOpen ? close() : open("upgrades"))}
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none relative"
+          onClick={() =>
+            setUpgradePing(false) && modalOpen ? close() : open("upgrades")
+          }
         >
           Upgrades
+          <AnimatePresence
+            initial={false}
+            wait={true}
+            onExitComplete={() => null}
+          >
+            {upgradePing && (
+              <motion.span
+                className="absolute flex h-4 w-4 top-0 right-0 -mt-1 -mr-1"
+                variants={fadeInOut}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-4 w-4 bg-sky-500"></span>
+              </motion.span>
+            )}
+          </AnimatePresence>
         </motion.li>
         <motion.li
           whileTap={{ scale: 1.05 }}

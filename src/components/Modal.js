@@ -9,22 +9,10 @@ export default function Modal({
   upgrades,
   purchaseUpgrade,
   currency,
+  fadeInOut,
+  upgradePing,
+  setUpgradePing,
 }) {
-  const fadeIn = {
-    hidden: {
-      opacity: 0,
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.2,
-      },
-    },
-    exit: {
-      opacity: 0,
-    },
-  }
-
   switch (activeMenuButton) {
     case "crop-type":
       return (
@@ -32,7 +20,7 @@ export default function Modal({
           <motion.div
             onClick={(e) => e.stopPropagation()}
             className="bg-gray-600 rounded-xl fixed inset-0 h-80 w-64 m-auto p-3"
-            variants={fadeIn}
+            variants={fadeInOut}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -48,7 +36,7 @@ export default function Modal({
           <motion.div
             onClick={(e) => e.stopPropagation()}
             className="bg-gray-800 rounded-xl fixed inset-0 h-fit w-fit m-auto p-5"
-            variants={fadeIn}
+            variants={fadeInOut}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -70,6 +58,9 @@ export default function Modal({
                 purchaseUpgrade={purchaseUpgrade}
                 currency={currency}
                 handleClose={handleClose}
+                fadeInOut={fadeInOut}
+                upgradePing={upgradePing}
+                setUpgradePing={setUpgradePing}
               />
             ))}
             <div className="flex justify-center mt-6">
@@ -86,7 +77,7 @@ export default function Modal({
           <motion.div
             onClick={(e) => e.stopPropagation()}
             className="bg-gray-600 rounded-xl fixed inset-0 h-80 w-64 m-auto p-3"
-            variants={fadeIn}
+            variants={fadeInOut}
             initial="hidden"
             animate="visible"
             exit="exit"
