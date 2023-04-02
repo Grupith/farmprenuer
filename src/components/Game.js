@@ -74,7 +74,7 @@ export default function Game() {
     setActiveMenuButton(null)
   }
 
-  const handleHarvest = () => {
+  const handleHarvestClick = () => {
     setCurrency(currency + 1)
   }
 
@@ -106,12 +106,14 @@ export default function Game() {
           <p className="mt-32 font-semibold text-5xl text-green-700 w-screen text-center">
             ${currency}
           </p>
-          <p className="font-medium text-2xl w-screen text-center mt-4">
-            ${!currencyPerSecond && "0"} per second
-          </p>
+          {upgrades.some((u) => u.owned > 0) && (
+            <p className=" text-xl w-screen text-center mt-6">
+              Earns ${currencyPerSecond} per second
+            </p>
+          )}
         </div>
         <motion.button
-          onClick={handleHarvest}
+          onClick={handleHarvestClick}
           className="text-2xl p-10 rounded-2xl bg-amber-800 font-semibold shadow-xl"
           whileTap={{ scale: 1.05 }}
         >
