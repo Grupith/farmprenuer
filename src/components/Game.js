@@ -118,7 +118,7 @@ export default function Game() {
       </div>
       <motion.button
         onClick={handleHarvestClick}
-        className="text-2xl p-10 rounded-2xl bg-amber-800 font-semibold shadow-xl"
+        className="text-2xl p-10 rounded-2xl bg-amber-800 font-semibold shadow-xl select-none"
         whileTap={{ scale: 1.05 }}
       >
         Harvest
@@ -126,21 +126,21 @@ export default function Game() {
       <ul className="flex space-x-2 mb-20">
         <motion.li
           whileTap={{ scale: 1.05 }}
-          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none"
           onClick={() => (modalOpen ? close() : open("crop-type"))}
         >
           Crop-type
         </motion.li>
         <motion.li
           whileTap={{ scale: 1.05 }}
-          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none"
           onClick={() => (modalOpen ? close() : open("upgrades"))}
         >
           Upgrades
         </motion.li>
         <motion.li
           whileTap={{ scale: 1.05 }}
-          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md"
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none"
           onClick={() => (modalOpen ? close() : open("settings"))}
         >
           Settings

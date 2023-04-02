@@ -20,7 +20,9 @@ export default function Upgrade({
 
   const handlePurchase = () => {
     purchaseUpgrade(id)
-    handleClose()
+    if (upgradeUnlocked) {
+      handleClose()
+    }
   }
 
   return (
