@@ -19,15 +19,15 @@ export default function Game() {
     {
       id: 2,
       name: "Tractor",
-      price: 500,
-      multiplier: 5,
+      price: 250,
+      multiplier: 0.5,
       owned: 0,
     },
     {
       id: 3,
       name: "Silo",
-      price: 1000,
-      multiplier: 10,
+      price: 500,
+      multiplier: 1,
       owned: 0,
     },
   ])

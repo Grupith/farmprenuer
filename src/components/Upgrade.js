@@ -33,7 +33,7 @@ export default function Upgrade({
 
   return (
     <div
-      className={`rounded-lg shadow-lg p-3 flex relative items-center w-full justify-between mt-4 ${
+      className={`rounded-lg shadow-lg p-3 flex relative items-center w-full justify-between mt-4 select-none ${
         upgradeUnlocked ? "bg-amber-800" : "bg-red-900 hover:bg-red-800"
       } hover:bg-amber-700 cursor-pointer`}
       onClick={handlePurchase}
@@ -43,7 +43,7 @@ export default function Upgrade({
       </div>
       <div className="flex flex-col">
         <h3 className="text-xl font-medium">{name}</h3>
-        <p>Earns ${multiplier} per second</p>
+        <p>Earns ${multiplier.toFixed(2)} per second</p>
       </div>
       <div>
         <p className="text-xl">${price}</p>
