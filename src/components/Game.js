@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
@@ -8,6 +8,7 @@ export default function Game() {
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
+  const [upgradePing, setUpgradePing] = useState(false)
   const [upgrades, setUpgrades] = useState([
     {
       id: 1,
@@ -31,9 +32,12 @@ export default function Game() {
       owned: 0,
     },
   ])
-  const [upgradePing, setUpgradePing] = useState(false)
-  const [newUpgradeMenuPing, setNewUpgradeMenuPing] = useState(false)
+  // Upgrade Refs
+  const firstUpgradeRef = useRef(false)
+  const secondUpgradeRef = useRef(false)
+  const thirdUpgradeRef = useRef(false)
 
+  // Purchase an upgrade from the upgrades menu in the Modal
   const purchaseUpgrade = (upgradeId) => {
     const upgrade = upgrades.find((u) => u.id === upgradeId)
 
@@ -81,10 +85,9 @@ export default function Game() {
     setCurrency(currency + 1)
   }
 
-  // Achievements
+  // setUpgradePing to display when user has a new upgrade avaliable
   const reachUpgrade = () => {
-    setNewUpgradeMenuPing(true)
-    console.log("has new upgrade true")
+    console.log("reachUpgrade")
     setUpgradePing(true)
   }
 
@@ -100,8 +103,20 @@ export default function Game() {
 
   //TODO: trigger reachUpgrade only if the user hit that upgrade for first time
   useEffect(() => {
-    if (currency >= 100) {
+    if (currency >= 100 && !firstUpgradeRef.current) {
+      firstUpgradeRef.current = true
       reachUpgrade()
+      console.log("first upgrade Ref when useEffect ran is", firstUpgradeRef)
+    }
+    if (currency >= 250 && !secondUpgradeRef.current) {
+      secondUpgradeRef.current = true
+      reachUpgrade()
+      console.log("first upgrade Ref when useEffect ran is", secondUpgradeRef)
+    }
+    if (currency >= 500 && !thirdUpgradeRef.current) {
+      thirdUpgradeRef.current = true
+      reachUpgrade()
+      console.log("first upgrade Ref when useEffect ran is", thirdUpgradeRef)
     }
   }, [currency])
 
@@ -136,7 +151,6 @@ export default function Game() {
             fadeInOut={fadeInOut}
             upgradePing={upgradePing}
             setUpgradePing={setUpgradePing}
-            setNewUpgradeMenuPing={setNewUpgradeMenuPing}
           />
         )}
       </AnimatePresence>
@@ -183,7 +197,7 @@ export default function Game() {
             wait={true}
             onExitComplete={() => null}
           >
-            {newUpgradeMenuPing && upgradePing && (
+            {upgradePing && (
               <motion.span
                 className="absolute flex h-4 w-4 top-0 right-0 -mt-1 -mr-1"
                 variants={fadeInOut}

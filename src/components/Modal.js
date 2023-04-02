@@ -12,7 +12,6 @@ export default function Modal({
   fadeInOut,
   upgradePing,
   setUpgradePing,
-  setNewUpgradeMenuPing,
 }) {
   switch (activeMenuButton) {
     case "crop-type":
@@ -62,7 +61,6 @@ export default function Modal({
                 fadeInOut={fadeInOut}
                 upgradePing={upgradePing}
                 setUpgradePing={setUpgradePing}
-                setNewUpgradeMenuPing={setNewUpgradeMenuPing}
               />
             ))}
             <div className="flex justify-center mt-6">
