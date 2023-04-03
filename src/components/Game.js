@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(0)
+  const [currency, setCurrency] = useState(97)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
@@ -16,6 +16,7 @@ export default function Game() {
       price: 100,
       multiplier: 0.15,
       owned: 0,
+      description: "Increases your farming efficiency by 15%.",
     },
     {
       id: 2,
@@ -23,6 +24,8 @@ export default function Game() {
       price: 250,
       multiplier: 0.25,
       owned: 0,
+      description:
+        "Stores more grain, allowing you to increase your profits by 25%.",
     },
     {
       id: 3,
@@ -30,6 +33,8 @@ export default function Game() {
       price: 500,
       multiplier: 0.4,
       owned: 0,
+      description:
+        "Expands your farming operations, providing a 40% boost to your earnings.",
     },
     {
       id: 4,
@@ -37,6 +42,8 @@ export default function Game() {
       price: 1000,
       multiplier: 0.65,
       owned: 0,
+      description:
+        "Enables you to grow crops year-round and increases profits by 65%.",
     },
     {
       id: 5,
@@ -44,6 +51,8 @@ export default function Game() {
       price: 2000,
       multiplier: 1.05,
       owned: 0,
+      description:
+        "Allows you to raise animals and earn more money from their products, increasing profits by 105%.",
     },
     {
       id: 6,
@@ -51,6 +60,8 @@ export default function Game() {
       price: 5000,
       multiplier: 1.7,
       owned: 0,
+      description:
+        "Provides a steady supply of water to your crops, boosting profits by 170%.",
     },
   ])
   // Set upgradeRefs to false becuase user has not reached Upgrade price
@@ -124,9 +135,7 @@ export default function Game() {
     return () => clearInterval(interval)
   }, [currencyPerSecond])
 
-  // Check if user reached a certain currency
-
-  //TODO: trigger reachUpgrade only if the user hit that upgrade for first time
+  // Check if user reached a certain upgrade
   useEffect(() => {
     if (currency >= 100 && !firstUpgradeRef.current) {
       firstUpgradeRef.current = true

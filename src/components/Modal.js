@@ -14,12 +14,13 @@ export default function Modal({
   setUpgradePing,
 }) {
   switch (activeMenuButton) {
+    // Render Crop-type Menu
     case "crop-type":
       return (
         <Backdrop onClick={handleClose}>
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-600 rounded-xl fixed inset-0 h-80 w-64 m-auto p-3"
+            className="bg-gray-800 rounded-xl fixed inset-0 h-64 w-48 m-auto select-none p-4"
             variants={fadeInOut}
             initial="hidden"
             animate="visible"
@@ -30,6 +31,7 @@ export default function Modal({
           </motion.div>
         </Backdrop>
       )
+    // Render Upgrades Menu
     case "upgrades":
       return (
         <Backdrop onClick={handleClose}>
@@ -56,6 +58,7 @@ export default function Modal({
                   name={upgrade.name}
                   multiplier={upgrade.multiplier}
                   price={upgrade.price}
+                  description={upgrade.description}
                   purchaseUpgrade={purchaseUpgrade}
                   currency={currency}
                   handleClose={handleClose}
@@ -73,6 +76,7 @@ export default function Modal({
           </motion.div>
         </Backdrop>
       )
+    // Render Settings Menu
     case "settings":
       return (
         <Backdrop onClick={handleClose}>

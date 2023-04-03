@@ -7,6 +7,7 @@ export default function Upgrade({
   name,
   multiplier,
   price,
+  description,
   purchaseUpgrade,
   currency,
   handleClose,
@@ -15,6 +16,7 @@ export default function Upgrade({
   setUpgradePing,
 }) {
   const [upgradeUnlocked, setUpgradeUnlocked] = useState(false)
+  const [isHovering, setIsHovering] = useState(false)
 
   // Unlock the upgrade when user reaches price
   useEffect(() => {
@@ -40,6 +42,8 @@ export default function Upgrade({
           : "bg-red-900 hover:bg-red-800 cursor-not-allowed"
       }`}
       onClick={handlePurchase}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
     >
       <div>
         <p className="text-4xl">{owned}</p>
@@ -51,6 +55,11 @@ export default function Upgrade({
       <div>
         <p className="text-xl">${price}</p>
       </div>
+      {isHovering && (
+        <div className="absolute -top-5 left-20 p-2 bg-cyan-600 text-white text-xs rounded-lg shadow-lg">
+          <p>{description}!</p>
+        </div>
+      )}
       <AnimatePresence initial={false} wait={true} onExitComplete={() => null}>
         {upgradeUnlocked && owned === 0 && (
           <motion.span
