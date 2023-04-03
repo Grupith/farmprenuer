@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(97)
+  const [currency, setCurrency] = useState(0)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
@@ -12,30 +12,54 @@ export default function Game() {
   const [upgrades, setUpgrades] = useState([
     {
       id: 1,
-      name: "Employee",
+      name: "Tractor",
       price: 100,
-      multiplier: 0.25,
+      multiplier: 0.15,
       owned: 0,
     },
     {
       id: 2,
-      name: "Tractor",
+      name: "Grain Bin",
       price: 250,
-      multiplier: 0.5,
+      multiplier: 0.25,
       owned: 0,
     },
     {
       id: 3,
-      name: "Silo",
+      name: "Field",
       price: 500,
-      multiplier: 1,
+      multiplier: 0.4,
+      owned: 0,
+    },
+    {
+      id: 4,
+      name: "Greenhouse",
+      price: 1000,
+      multiplier: 0.65,
+      owned: 0,
+    },
+    {
+      id: 5,
+      name: "Livestock Pen",
+      price: 2000,
+      multiplier: 1.05,
+      owned: 0,
+    },
+    {
+      id: 6,
+      name: "Irrigation System",
+      price: 5000,
+      multiplier: 1.7,
       owned: 0,
     },
   ])
-  // Upgrade Refs
+  // Set upgradeRefs to false becuase user has not reached Upgrade price
   const firstUpgradeRef = useRef(false)
   const secondUpgradeRef = useRef(false)
   const thirdUpgradeRef = useRef(false)
+  const fourthUpgradeRef = useRef(false)
+  const fifthUpgradeRef = useRef(false)
+  const sixthUpgradeRef = useRef(false)
 
   // Purchase an upgrade from the upgrades menu in the Modal
   const purchaseUpgrade = (upgradeId) => {
@@ -81,8 +105,9 @@ export default function Game() {
     setActiveMenuButton(null)
   }
 
+  // Handlle the manual user click
   const handleHarvestClick = () => {
-    setCurrency(currency + 1)
+    setCurrency(currency + 0.1)
   }
 
   // setUpgradePing to display when user has a new upgrade avaliable
@@ -111,12 +136,27 @@ export default function Game() {
     if (currency >= 250 && !secondUpgradeRef.current) {
       secondUpgradeRef.current = true
       reachUpgrade()
-      console.log("first upgrade Ref when useEffect ran is", secondUpgradeRef)
+      console.log("second upgrade Ref when useEffect ran is", secondUpgradeRef)
     }
     if (currency >= 500 && !thirdUpgradeRef.current) {
       thirdUpgradeRef.current = true
       reachUpgrade()
-      console.log("first upgrade Ref when useEffect ran is", thirdUpgradeRef)
+      console.log("third upgrade Ref when useEffect ran is", thirdUpgradeRef)
+    }
+    if (currency >= 1000 && !fourthUpgradeRef.current) {
+      fourthUpgradeRef.current = true
+      reachUpgrade()
+      console.log("fourth upgrade Ref when useEffect ran is", fourthUpgradeRef)
+    }
+    if (currency >= 2000 && !fifthUpgradeRef.current) {
+      fifthUpgradeRef.current = true
+      reachUpgrade()
+      console.log("fifth upgrade Ref when useEffect ran is", fifthUpgradeRef)
+    }
+    if (currency >= 5000 && !sixthUpgradeRef.current) {
+      sixthUpgradeRef.current = true
+      reachUpgrade()
+      console.log("sixth upgrade Ref when useEffect ran is", sixthUpgradeRef)
     }
   }, [currency])
 
@@ -162,7 +202,7 @@ export default function Game() {
           ${currency.toFixed(2)}
         </p>
         {upgrades.some((u) => u.owned > 0) && (
-          <p className=" text-xl w-screen text-center mt-6">
+          <p className=" text-xl w-screen text-center mt-6 select-none">
             Earns ${currencyPerSecond.toFixed(2)} per second
           </p>
         )}

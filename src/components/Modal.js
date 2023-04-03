@@ -35,7 +35,7 @@ export default function Modal({
         <Backdrop onClick={handleClose}>
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-800 rounded-xl fixed inset-0 h-fit w-fit m-auto p-5 select-none "
+            className="bg-gray-800 rounded-xl fixed inset-0 h-fit w-fit m-auto select-none p-4"
             variants={fadeInOut}
             initial="hidden"
             animate="visible"
@@ -47,22 +47,24 @@ export default function Modal({
             <p className="text-center mt-6 mb-6">
               Click on an upgrade you would like to purchase
             </p>
-            {upgrades.map((upgrade) => (
-              <Upgrade
-                key={upgrade.id}
-                id={upgrade.id}
-                owned={upgrade.owned}
-                name={upgrade.name}
-                multiplier={upgrade.multiplier}
-                price={upgrade.price}
-                purchaseUpgrade={purchaseUpgrade}
-                currency={currency}
-                handleClose={handleClose}
-                fadeInOut={fadeInOut}
-                upgradePing={upgradePing}
-                setUpgradePing={setUpgradePing}
-              />
-            ))}
+            <ul className="h-80 overflow-y-auto overflow-x-hidden px-2">
+              {upgrades.map((upgrade) => (
+                <Upgrade
+                  key={upgrade.id}
+                  id={upgrade.id}
+                  owned={upgrade.owned}
+                  name={upgrade.name}
+                  multiplier={upgrade.multiplier}
+                  price={upgrade.price}
+                  purchaseUpgrade={purchaseUpgrade}
+                  currency={currency}
+                  handleClose={handleClose}
+                  fadeInOut={fadeInOut}
+                  upgradePing={upgradePing}
+                  setUpgradePing={setUpgradePing}
+                />
+              ))}
+            </ul>
             <div className="flex justify-center mt-6">
               <button onClick={handleClose} className="text-lg">
                 Cancel
