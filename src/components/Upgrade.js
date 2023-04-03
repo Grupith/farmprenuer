@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
+import { MdHelpOutline, MdHelp } from "react-icons/md"
 
 export default function Upgrade({
   id,
@@ -16,7 +17,7 @@ export default function Upgrade({
   setUpgradePing,
 }) {
   const [upgradeUnlocked, setUpgradeUnlocked] = useState(false)
-  const [isHovering, setIsHovering] = useState(false)
+  const [showUpgradeInfo, setShowUpgradeInfo] = useState(false)
 
   // Unlock the upgrade when user reaches price
   useEffect(() => {
@@ -34,29 +35,52 @@ export default function Upgrade({
     }
   }
 
+  useEffect(() => {
+    if (showUpgradeInfo) {
+      console.log("started timeout")
+      const timeout = setTimeout(() => {
+        setShowUpgradeInfo(false)
+      }, 3000)
+      return () => {
+        clearTimeout(timeout)
+        console.log("cleared timeout")
+      }
+    }
+  }, [setShowUpgradeInfo, showUpgradeInfo])
+
   return (
     <div
       className={`rounded-lg shadow-lg p-3 flex relative items-center w-full justify-between mt-4 select-none ${
         upgradeUnlocked
           ? "bg-green-800 hover:bg-green-700 cursor-pointer"
-          : "bg-red-900 hover:bg-red-800 cursor-not-allowed"
+          : "bg-red-900 hover:bg-red-800 cursor-pointer"
       }`}
       onClick={handlePurchase}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
     >
       <div>
         <p className="text-4xl">{owned}</p>
       </div>
       <div className="flex flex-col">
-        <h3 className="text-xl font-medium">{name}</h3>
+        <div className="flex items-center">
+          <h3 className="text-xl font-medium">{name}</h3>
+          <div
+            className="m-1"
+            onClick={() => setShowUpgradeInfo((prev) => !prev)}
+          >
+            {showUpgradeInfo ? (
+              <MdHelp className="h-5 w-5" />
+            ) : (
+              <MdHelpOutline className="h-5 w-5" />
+            )}
+          </div>
+        </div>
         <p>Earns ${multiplier.toFixed(2)} per second</p>
       </div>
       <div>
         <p className="text-xl">${price}</p>
       </div>
-      {isHovering && (
-        <div className="absolute -top-5 left-20 p-2 bg-cyan-600 text-white text-xs rounded-lg shadow-lg">
+      {showUpgradeInfo && (
+        <div className="absolute -top-10 left-20 p-2 bg-cyan-600 text-white text-xs rounded-lg shadow-lg">
           <p>{description}!</p>
         </div>
       )}
