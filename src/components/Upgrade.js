@@ -20,6 +20,8 @@ export default function Upgrade({
   useEffect(() => {
     if (currency >= price) {
       setUpgradeUnlocked(true)
+    } else {
+      setUpgradeUnlocked(false)
     }
   }, [currency, price])
 
@@ -34,9 +36,9 @@ export default function Upgrade({
     <div
       className={`rounded-lg shadow-lg p-3 flex relative items-center w-full justify-between mt-4 select-none ${
         upgradeUnlocked
-          ? "bg-green-800 hover:bg-green-700"
-          : "bg-red-900 hover:bg-red-800"
-      } cursor-pointer`}
+          ? "bg-green-800 hover:bg-green-700 cursor-pointer"
+          : "bg-red-900 hover:bg-red-800 cursor-not-allowed"
+      }`}
       onClick={handlePurchase}
     >
       <div>

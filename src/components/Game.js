@@ -155,10 +155,10 @@ export default function Game() {
         )}
       </AnimatePresence>
       <div className="mt-2 flex flex-col items-center">
-        <h1 className="text-4xl font-bold text-gray-300">
+        <h1 className="text-4xl font-bold text-gray-300 select-none">
           <span className="text-amber-600">Farm</span>prenuer
         </h1>
-        <p className="mt-32 font-semibold text-5xl text-green-700 w-screen text-center">
+        <p className="mt-32 font-semibold text-5xl text-green-700 w-screen text-center select-none">
           ${currency.toFixed(2)}
         </p>
         {upgrades.some((u) => u.owned > 0) && (
