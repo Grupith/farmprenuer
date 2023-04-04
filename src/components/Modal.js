@@ -1,6 +1,6 @@
 import React from "react"
 import Backdrop from "./Backdrop"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Upgrade from "./Upgrade"
 
 export default function Modal({
@@ -49,7 +49,7 @@ export default function Modal({
             <p className="text-center mt-6 mb-6">
               Click on an upgrade you would like to purchase
             </p>
-            <ul className="h-80 overflow-y-auto overflow-x-hidden px-2">
+            <ul className="h-80 overflow-y-auto overflow-x-hidden px-2 pt-6 z-50">
               {upgrades.map((upgrade) => (
                 <Upgrade
                   key={upgrade.id}
