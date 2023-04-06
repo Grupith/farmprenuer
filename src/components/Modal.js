@@ -1,7 +1,8 @@
 import React from "react"
 import Backdrop from "./Backdrop"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import Upgrade from "./Upgrade"
+import { MdCancel } from "react-icons/md"
 
 export default function Modal({
   handleClose,
@@ -26,8 +27,13 @@ export default function Modal({
             animate="visible"
             exit="exit"
           >
+            <div className="flex justify-end">
+              <MdCancel
+                onClick={handleClose}
+                className="h-6 w-6 cursor-pointer"
+              />
+            </div>
             <p className="text-2xl text-center">Crop-types</p>
-            <button onClick={handleClose}>Close</button>
           </motion.div>
         </Backdrop>
       )
@@ -37,12 +43,18 @@ export default function Modal({
         <Backdrop onClick={handleClose}>
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-800 rounded-xl fixed inset-0 h-fit w-fit m-auto select-none p-4"
+            className="bg-gray-800 rounded-xl fixed inset-0 h-fit w-fit m-auto select-none p-4 pb-10"
             variants={fadeInOut}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
+            <div className="flex justify-end">
+              <MdCancel
+                onClick={handleClose}
+                className="h-6 w-6 cursor-pointer"
+              />
+            </div>
             <h2 className="text-3xl text-center font-semibold text-amber-600">
               Upgrades
             </h2>
@@ -68,11 +80,6 @@ export default function Modal({
                 />
               ))}
             </ul>
-            <div className="flex justify-center mt-6">
-              <button onClick={handleClose} className="text-lg">
-                Cancel
-              </button>
-            </div>
           </motion.div>
         </Backdrop>
       )
@@ -88,8 +95,13 @@ export default function Modal({
             animate="visible"
             exit="exit"
           >
+            <div className="flex justify-end">
+              <MdCancel
+                onClick={handleClose}
+                className="h-6 w-6 cursor-pointer"
+              />
+            </div>
             <p className="text-2xl text-center">Settings</p>
-            <button onClick={handleClose}>Close</button>
           </motion.div>
         </Backdrop>
       )
