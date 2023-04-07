@@ -39,8 +39,9 @@ export default function Modal({
             <h2 className="text-3xl text-center font-semibold text-amber-600">
               Crop-types
             </h2>
-            <p className="text-center mt-6 mb-6">
-              A crop-type upgrades the manual click multiplier
+            <p className="text-center mt-6 mb-6 w-80 m-auto">
+              Get more for your Hard Work! Purchasing a crop-type will upgrade
+              the currency per-click.
             </p>
             <ul className="h-80 overflow-y-auto overflow-x-hidden px-2 pt-6 z-50">
               {croptypes.map((croptype) => (
@@ -82,8 +83,9 @@ export default function Modal({
             <h2 className="text-3xl text-center font-semibold text-amber-600">
               Upgrades
             </h2>
-            <p className="text-center mt-6 mb-6">
-              Click on an upgrade you would like to purchase
+            <p className="text-center mt-6 mb-6 w-80 m-auto">
+              Let the equipment do the work for you! Purchasing an upgrade will
+              increase your currency per-second multiplier.
             </p>
             <ul className="h-80 overflow-y-auto overflow-x-hidden px-2 pt-6 z-50">
               {upgrades.map((upgrade) => (

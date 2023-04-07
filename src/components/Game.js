@@ -6,7 +6,7 @@ import Modal from "./Modal"
 export default function Game() {
   const [currency, setCurrency] = useState(499)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
-  const [currenyPerClick, setCurrencyPerClick] = useState(0.1)
+  const [currencyPerClick, setCurrencyPerClick] = useState(0.1)
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
   const [upgradePing, setUpgradePing] = useState(false)
@@ -154,7 +154,7 @@ export default function Game() {
     // Subtract the cost of the croptype from users currency
     setCurrency(currency - croptype.price)
 
-    // Update how many upgrades a user has bought
+    // Update how many croptypes a user has bought
     const updatedCroptypes = croptypes.map((crop) => {
       if (crop.id === croptypeId) {
         return {
@@ -165,10 +165,10 @@ export default function Game() {
       return crop
     })
 
-    setUpgrades(updatedCroptypes)
+    setCroptypes(updatedCroptypes)
 
     //TODO: Add the the croptypes multiplier to the currencyPerClick
-    setCurrencyPerClick((prevCPC) => prevCPC + croptype.multiplier)
+    setCurrencyPerClick(croptype.multiplier)
   }
 
   const open = (button) => {
@@ -182,7 +182,7 @@ export default function Game() {
 
   // Handlle the manual user click
   const handleHarvestClick = () => {
-    setCurrency(currency + currenyPerClick)
+    setCurrency(currency + currencyPerClick)
   }
 
   // setUpgradePing to display when user has a new upgrade avaliable
@@ -279,10 +279,20 @@ export default function Game() {
         </p>
         {upgrades.some((u) => u.owned > 0) && (
           <p className=" text-xl w-screen text-center mt-6 select-none">
-            Earns ${currencyPerSecond.toFixed(2)} per second
+            Earns{" "}
+            <span className="font-semibold">
+              ${currencyPerSecond.toFixed(2)}
+            </span>{" "}
+            per second
           </p>
         )}
       </div>
+      {croptypes.some((crop) => crop.owned > 0) && (
+        <p className=" text-xl w-screen text-center mt-6 select-none">
+          <span className="font-semibold">${currencyPerClick.toFixed(2)}</span>{" "}
+          per click
+        </p>
+      )}
       <motion.button
         onClick={handleHarvestClick}
         className="text-2xl p-10 rounded-2xl bg-amber-800 font-semibold shadow-xl select-none"
