@@ -10,6 +10,7 @@ export default function Game() {
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
   const [upgradePing, setUpgradePing] = useState(false)
+  const [croptypePing, setCroptypePing] = useState(false)
   const [upgrades, setUpgrades] = useState([
     {
       id: 1,
@@ -101,6 +102,18 @@ export default function Game() {
   const fourthUpgradeRef = useRef(false)
   const fifthUpgradeRef = useRef(false)
   const sixthUpgradeRef = useRef(false)
+  // croptypeRefs
+  const firstCroptypeRef = useRef(false)
+  const secondCroptypeRef = useRef(false)
+  const thirdCroptypeRef = useRef(false)
+
+  // Increment currency by currencyPerSecond every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrency((currency) => currency + currencyPerSecond)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [currencyPerSecond])
 
   // Purchase an upgrade from the upgrades menu in the Modal
   const purchaseUpgrade = (upgradeId) => {
@@ -191,13 +204,32 @@ export default function Game() {
     setUpgradePing(true)
   }
 
-  // Increment currency by currencyPerSecond every second
+  const reachCroptype = () => {
+    console.log("reachCroptype")
+    setCroptypePing(true)
+  }
+
+  // Check if user reached a certain croptype
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrency((currency) => currency + currencyPerSecond)
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [currencyPerSecond])
+    if (currency >= 500 && !firstCroptypeRef.current) {
+      firstCroptypeRef.current = true
+      reachCroptype()
+      console.log("first croptype Ref when useEffect ran is", firstCroptypeRef)
+    }
+    if (currency >= 1000 && !secondCroptypeRef.current) {
+      secondCroptypeRef.current = true
+      reachCroptype()
+      console.log(
+        "second croptype Ref when useEffect ran is",
+        secondCroptypeRef
+      )
+    }
+    if (currency >= 3000 && !thirdCroptypeRef.current) {
+      thirdCroptypeRef.current = true
+      reachCroptype()
+      console.log("third croptype Ref when useEffect ran is", thirdCroptypeRef)
+    }
+  }, [currency])
 
   // Check if user reached a certain upgrade
   useEffect(() => {
@@ -303,10 +335,24 @@ export default function Game() {
       <ul className="flex space-x-2 mb-20">
         <motion.li
           whileTap={{ scale: 1.05 }}
-          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none"
-          onClick={() => (modalOpen ? close() : open("crop-type"))}
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none relative"
+          onClick={() =>
+            setCroptypePing(false) && modalOpen ? close() : open("crop-type")
+          }
         >
           Crop-type
+          {croptypePing && (
+            <motion.span
+              className="absolute flex h-4 w-4 top-0 right-0 -mt-1 -mr-1"
+              variants={fadeInOut}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-4 w-4 bg-sky-500"></span>
+            </motion.span>
+          )}
         </motion.li>
         <motion.li
           whileTap={{ scale: 1.05 }}
