@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(499)
+  const [currency, setCurrency] = useState(0)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [currencyPerClick, setCurrencyPerClick] = useState(0.1)
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
   const [upgradePing, setUpgradePing] = useState(false)
   const [croptypePing, setCroptypePing] = useState(false)
+  const [showClick, setShowClick] = useState(false)
   const [upgrades, setUpgrades] = useState([
     {
       id: 1,
@@ -124,6 +125,10 @@ export default function Game() {
   // Handlle the manual user click
   const handleHarvestClick = () => {
     setCurrency(currency + currencyPerClick)
+    setShowClick(true)
+    setTimeout(() => {
+      setShowClick(false)
+    }, 150)
   }
 
   // Purchase an upgrade from the upgrades menu in the Modal
@@ -281,19 +286,20 @@ export default function Game() {
           </p>
         )}
       </div>
-      {croptypes.some((crop) => crop.owned > 0) && (
-        <p className=" text-xl w-screen text-center mt-6 select-none">
-          <span className="font-semibold">${currencyPerClick.toFixed(2)}</span>{" "}
-          per click
-        </p>
-      )}
-      <motion.button
-        onClick={handleHarvestClick}
-        className="text-2xl p-10 rounded-2xl bg-amber-800 font-semibold shadow-xl select-none"
-        whileTap={{ scale: 1.05 }}
-      >
-        Harvest
-      </motion.button>
+      <div>
+        <motion.button
+          onClick={handleHarvestClick}
+          className="text-2xl p-10 rounded-2xl bg-amber-800 font-semibold shadow-xl select-none relative"
+          whileTap={{ scale: 1.05 }}
+        >
+          Harvest
+          {showClick && (
+            <p className=" text-xl w-fit text-center select-none m-auto py-2 font-semibold absolute">
+              +${currencyPerClick.toFixed(2)}
+            </p>
+          )}
+        </motion.button>
+      </div>
       <ul className="flex space-x-2 mb-20">
         <motion.li
           whileTap={{ scale: 1.05 }}
