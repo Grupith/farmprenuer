@@ -1,62 +1,60 @@
-import { motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
-import { MdHelpOutline, MdHelp } from "react-icons/md"
+import { motion } from "framer-motion"
+import { MdHelp, MdHelpOutline } from "react-icons/md"
 
-export default function Upgrade({
+export default function Croptype({
   id,
-  owned,
-  name,
-  multiplier,
-  price,
-  description,
-  purchaseUpgrade,
   currency,
   fadeInOut,
-  upgradePing,
-  setUpgradePing,
+  name,
+  price,
+  description,
+  owned,
+  multiplier,
+  purchaseCroptype,
 }) {
-  const [upgradeUnlocked, setUpgradeUnlocked] = useState(false)
-  const [showUpgradeInfo, setShowUpgradeInfo] = useState(false)
-
-  // Unlock the upgrade when user reaches price
-  useEffect(() => {
-    if (currency >= price) {
-      setUpgradeUnlocked(true)
-    } else {
-      setUpgradeUnlocked(false)
-    }
-  }, [currency, price])
+  const [croptypeUnlocked, setCroptypeUnlocked] = useState(false)
+  const [showCroptypeInfo, setShowCroptypeInfo] = useState(false)
 
   const handlePurchase = () => {
-    purchaseUpgrade(id)
-    if (upgradeUnlocked) {
-      setUpgradePing(false)
-    }
+    purchaseCroptype(id)
+    // if (croptypeUnlocked) {
+    //   setUpgradePing(false)
+    // }
   }
+
+  // Unlock the croptype when user reaches price
+  useEffect(() => {
+    if (currency >= price) {
+      setCroptypeUnlocked(true)
+    } else {
+      setCroptypeUnlocked(false)
+    }
+  }, [currency, price])
   // Only show upgrade description popup for 3 seconds when clicked
   useEffect(() => {
-    if (showUpgradeInfo) {
+    if (showCroptypeInfo) {
       console.log("started timeout")
       const timeout = setTimeout(() => {
-        setShowUpgradeInfo(false)
+        setShowCroptypeInfo(false)
       }, 3000)
       return () => {
         clearTimeout(timeout)
         console.log("cleared timeout")
       }
     }
-  }, [setShowUpgradeInfo, showUpgradeInfo])
+  }, [showCroptypeInfo, setShowCroptypeInfo])
 
   return (
     <div
       className={`rounded-lg shadow-lg p-3 flex relative items-center w-full justify-between mt-4 select-none ${
-        upgradeUnlocked
+        croptypeUnlocked
           ? "bg-green-800 hover:bg-green-700 cursor-pointer"
           : "bg-red-900 hover:bg-red-800 cursor-pointer"
       }`}
       onClick={handlePurchase}
     >
-      {showUpgradeInfo && (
+      {showCroptypeInfo && (
         <motion.div
           className="absolute z-50 -top-10 left-20 p-2 bg-cyan-600 text-white text-xs rounded-lg shadow-lg"
           variants={fadeInOut}
@@ -77,7 +75,7 @@ export default function Upgrade({
             className="m-1"
             onClick={(e) => {
               e.stopPropagation()
-              setShowUpgradeInfo((prev) => !prev)
+              setShowCroptypeInfo((prev) => !prev)
             }}
           >
             <motion.div
@@ -86,7 +84,7 @@ export default function Upgrade({
               animate="visible"
               exit="exit"
             >
-              {showUpgradeInfo ? (
+              {showCroptypeInfo ? (
                 <MdHelp className="h-5 w-5 animate-pulse" />
               ) : (
                 <MdHelpOutline className="h-5 w-5" />
@@ -94,12 +92,12 @@ export default function Upgrade({
             </motion.div>
           </div>
         </div>
-        <p>Earns ${multiplier.toFixed(2)} per second</p>
+        <p>Earns ${multiplier.toFixed(2)} per click</p>
       </div>
       <div>
         <p className="text-xl">${price}</p>
       </div>
-      {upgradeUnlocked && owned === 0 && (
+      {croptypeUnlocked && owned === 0 && (
         <motion.span
           className="absolute flex h-4 w-4 top-0 right-0 -mt-1 -mr-1"
           variants={fadeInOut}

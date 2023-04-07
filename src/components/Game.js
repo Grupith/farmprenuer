@@ -4,8 +4,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(199.5)
+  const [currency, setCurrency] = useState(499)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
+  const [currenyPerClick, setCurrencyPerClick] = useState(0.1)
   const [modalOpen, setModalOpen] = useState(false)
   const [activeMenuButton, setActiveMenuButton] = useState(null)
   const [upgradePing, setUpgradePing] = useState(false)
@@ -64,6 +65,35 @@ export default function Game() {
         "Provides a steady supply of water to your crops, boosting profits by 170%.",
     },
   ])
+  const [croptypes, setCroptypes] = useState([
+    {
+      id: 1,
+      name: "Wheat",
+      price: 500,
+      multiplier: 0.3,
+      owned: 0,
+      description:
+        "Boosts your manual clicking rate with the power of freshly harvested wheat.",
+    },
+    {
+      id: 2,
+      name: "Corn",
+      price: 1000,
+      multiplier: 0.5,
+      owned: 0,
+      description:
+        "The power of corn helps you click faster and earn more coins.",
+    },
+    {
+      id: 3,
+      name: "Tomato",
+      price: 3000,
+      multiplier: 0.8,
+      owned: 0,
+      description:
+        "Use the juicy, ripe tomatoes to supercharge your clicking speed and earn coins even faster.",
+    },
+  ])
   // Set upgradeRefs to false becuase user has not reached Upgrade price
   const firstUpgradeRef = useRef(false)
   const secondUpgradeRef = useRef(false)
@@ -106,6 +136,40 @@ export default function Game() {
     // Add the the upgrades multiplier to the currencyPerSecond
     setCurrencyPerSecond((prevCPS) => prevCPS + upgrade.multiplier)
   }
+  // Purchase an croptype from the crop-type menu in the Modal
+  const purchaseCroptype = (croptypeId) => {
+    const croptype = croptypes.find((crop) => crop.id === croptypeId)
+
+    if (!croptype) {
+      console.log(`croptype with id ${croptypeId} not found`)
+      return
+    }
+    // Only allow if user has enough currency to purchase
+    if (currency < croptype.price) {
+      console.log(
+        `Player does not have enough money to purchase ${croptype.name}`
+      )
+      return
+    }
+    // Subtract the cost of the croptype from users currency
+    setCurrency(currency - croptype.price)
+
+    // Update how many upgrades a user has bought
+    const updatedCroptypes = croptypes.map((crop) => {
+      if (crop.id === croptypeId) {
+        return {
+          ...crop,
+          owned: crop.owned + 1,
+        }
+      }
+      return crop
+    })
+
+    setUpgrades(updatedCroptypes)
+
+    //TODO: Add the the croptypes multiplier to the currencyPerClick
+    setCurrencyPerClick((prevCPC) => prevCPC + croptype.multiplier)
+  }
 
   const open = (button) => {
     setModalOpen(true)
@@ -118,7 +182,7 @@ export default function Game() {
 
   // Handlle the manual user click
   const handleHarvestClick = () => {
-    setCurrency(currency + 0.1)
+    setCurrency(currency + currenyPerClick)
   }
 
   // setUpgradePing to display when user has a new upgrade avaliable
@@ -200,6 +264,9 @@ export default function Game() {
             fadeInOut={fadeInOut}
             upgradePing={upgradePing}
             setUpgradePing={setUpgradePing}
+            croptypes={croptypes}
+            setCroptypes={setCroptypes}
+            purchaseCroptype={purchaseCroptype}
           />
         )}
       </AnimatePresence>
