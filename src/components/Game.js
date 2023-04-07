@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from "react"
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
@@ -19,6 +18,7 @@ export default function Game() {
       multiplier: 0.15,
       owned: 0,
       description: "Increases your farming efficiency by 15%.",
+      firstVisit: true,
     },
     {
       id: 2,
@@ -28,6 +28,7 @@ export default function Game() {
       owned: 0,
       description:
         "Stores more grain, allowing you to increase your profits by 25%.",
+      firstVisit: true,
     },
     {
       id: 3,
@@ -37,6 +38,7 @@ export default function Game() {
       owned: 0,
       description:
         "Expands your farming operations, providing a 40% boost to your earnings.",
+      firstVisit: true,
     },
     {
       id: 4,
@@ -46,6 +48,7 @@ export default function Game() {
       owned: 0,
       description:
         "Enables you to grow crops year-round and increases profits by 65%.",
+      firstVisit: true,
     },
     {
       id: 5,
@@ -55,6 +58,7 @@ export default function Game() {
       owned: 0,
       description:
         "Allows you to raise animals and earn more money from their products, increasing profits by 105%.",
+      firstVisit: true,
     },
     {
       id: 6,
@@ -64,6 +68,7 @@ export default function Game() {
       owned: 0,
       description:
         "Provides a steady supply of water to your crops, boosting profits by 170%.",
+      firstVisit: true,
     },
   ])
   const [croptypes, setCroptypes] = useState([
@@ -75,6 +80,7 @@ export default function Game() {
       owned: 0,
       description:
         "Boosts your manual clicking rate with the power of freshly harvested wheat.",
+      firstVisit: true,
     },
     {
       id: 2,
@@ -84,6 +90,7 @@ export default function Game() {
       owned: 0,
       description:
         "The power of corn helps you click faster and earn more coins.",
+      firstVisit: true,
     },
     {
       id: 3,
@@ -93,19 +100,18 @@ export default function Game() {
       owned: 0,
       description:
         "Use the juicy, ripe tomatoes to supercharge your clicking speed and earn coins even faster.",
+      firstVisit: true,
     },
   ])
-  // Set upgradeRefs to false becuase user has not reached Upgrade price
-  const firstUpgradeRef = useRef(false)
-  const secondUpgradeRef = useRef(false)
-  const thirdUpgradeRef = useRef(false)
-  const fourthUpgradeRef = useRef(false)
-  const fifthUpgradeRef = useRef(false)
-  const sixthUpgradeRef = useRef(false)
-  // croptypeRefs
-  const firstCroptypeRef = useRef(false)
-  const secondCroptypeRef = useRef(false)
-  const thirdCroptypeRef = useRef(false)
+  // Checks which button is clicked to render the specific menu in Modal component
+  const open = (button) => {
+    setModalOpen(true)
+    setActiveMenuButton(button)
+  }
+  const close = () => {
+    setModalOpen(false)
+    setActiveMenuButton(null)
+  }
 
   // Increment currency by currencyPerSecond every second
   useEffect(() => {
@@ -114,6 +120,11 @@ export default function Game() {
     }, 1000)
     return () => clearInterval(interval)
   }, [currencyPerSecond])
+
+  // Handlle the manual user click
+  const handleHarvestClick = () => {
+    setCurrency(currency + currencyPerClick)
+  }
 
   // Purchase an upgrade from the upgrades menu in the Modal
   const purchaseUpgrade = (upgradeId) => {
@@ -180,90 +191,41 @@ export default function Game() {
 
     setCroptypes(updatedCroptypes)
 
-    //TODO: Add the the croptypes multiplier to the currencyPerClick
+    // Change the croptypes multiplier to the currencyPerClick
     setCurrencyPerClick(croptype.multiplier)
   }
 
-  const open = (button) => {
-    setModalOpen(true)
-    setActiveMenuButton(button)
-  }
-  const close = () => {
-    setModalOpen(false)
-    setActiveMenuButton(null)
-  }
-
-  // Handlle the manual user click
-  const handleHarvestClick = () => {
-    setCurrency(currency + currencyPerClick)
-  }
-
-  // setUpgradePing to display when user has a new upgrade avaliable
-  const reachUpgrade = () => {
-    console.log("reachUpgrade")
-    setUpgradePing(true)
-  }
-
-  const reachCroptype = () => {
-    console.log("reachCroptype")
-    setCroptypePing(true)
-  }
-
-  // Check if user reached a certain croptype
+  // Show upgradePing on button if user has reached upgrade for the first time
   useEffect(() => {
-    if (currency >= 500 && !firstCroptypeRef.current) {
-      firstCroptypeRef.current = true
-      reachCroptype()
-      console.log("first croptype Ref when useEffect ran is", firstCroptypeRef)
-    }
-    if (currency >= 1000 && !secondCroptypeRef.current) {
-      secondCroptypeRef.current = true
-      reachCroptype()
-      console.log(
-        "second croptype Ref when useEffect ran is",
-        secondCroptypeRef
-      )
-    }
-    if (currency >= 3000 && !thirdCroptypeRef.current) {
-      thirdCroptypeRef.current = true
-      reachCroptype()
-      console.log("third croptype Ref when useEffect ran is", thirdCroptypeRef)
-    }
-  }, [currency])
+    upgrades.map((upgrade) => {
+      if (currency >= upgrade.price && upgrade.firstVisit) {
+        setUpgradePing(true)
+        setUpgrades(
+          upgrades.map((u) =>
+            u.price === upgrade.price ? { ...u, firstVisit: false } : u
+          )
+        )
+      }
+      return upgrade
+    })
+  }, [currency, upgrades])
 
-  // Check if user reached a certain upgrade
+  // Show croptypePing on button if user has reached croptype for the first time
   useEffect(() => {
-    if (currency >= 100 && !firstUpgradeRef.current) {
-      firstUpgradeRef.current = true
-      reachUpgrade()
-      console.log("first upgrade Ref when useEffect ran is", firstUpgradeRef)
-    }
-    if (currency >= 250 && !secondUpgradeRef.current) {
-      secondUpgradeRef.current = true
-      reachUpgrade()
-      console.log("second upgrade Ref when useEffect ran is", secondUpgradeRef)
-    }
-    if (currency >= 500 && !thirdUpgradeRef.current) {
-      thirdUpgradeRef.current = true
-      reachUpgrade()
-      console.log("third upgrade Ref when useEffect ran is", thirdUpgradeRef)
-    }
-    if (currency >= 1000 && !fourthUpgradeRef.current) {
-      fourthUpgradeRef.current = true
-      reachUpgrade()
-      console.log("fourth upgrade Ref when useEffect ran is", fourthUpgradeRef)
-    }
-    if (currency >= 2000 && !fifthUpgradeRef.current) {
-      fifthUpgradeRef.current = true
-      reachUpgrade()
-      console.log("fifth upgrade Ref when useEffect ran is", fifthUpgradeRef)
-    }
-    if (currency >= 5000 && !sixthUpgradeRef.current) {
-      sixthUpgradeRef.current = true
-      reachUpgrade()
-      console.log("sixth upgrade Ref when useEffect ran is", sixthUpgradeRef)
-    }
-  }, [currency])
+    croptypes.map((croptype) => {
+      if (currency >= croptype.price && croptype.firstVisit) {
+        setCroptypePing(true)
+        setCroptypes(
+          croptypes.map((crop) =>
+            crop.price === croptype.price
+              ? { ...crop, firstVisit: false }
+              : crop
+          )
+        )
+      }
+      return croptype
+    })
+  }, [currency, croptypes])
 
   const fadeInOut = {
     hidden: {
