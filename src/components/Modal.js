@@ -16,6 +16,7 @@ export default function Modal({
   setUpgradePing,
   croptypes,
   purchaseCroptype,
+  clearLocalStorage,
 }) {
   switch (activeMenuButton) {
     // Render Crop-type Menu
@@ -127,6 +128,15 @@ export default function Modal({
               />
             </div>
             <p className="text-2xl text-center">Settings</p>
+            <div className="flex flex-col justify-center text-center pt-6">
+              <p>This will DELETE all of your saved data. Are you sure?</p>
+              <button
+                onClick={clearLocalStorage}
+                className="bg-red-700 py-1 px-3 w-28 m-auto rounded-md mt-4"
+              >
+                Delete
+              </button>
+            </div>
           </motion.div>
         </Backdrop>
       )

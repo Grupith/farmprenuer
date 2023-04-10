@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(0)
+  const [currency, setCurrency] = useState(499.5)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [currencyPerClick, setCurrencyPerClick] = useState(0.1)
   const [modalOpen, setModalOpen] = useState(false)
@@ -11,7 +11,8 @@ export default function Game() {
   const [upgradePing, setUpgradePing] = useState(false)
   const [croptypePing, setCroptypePing] = useState(false)
   const [showClick, setShowClick] = useState(false)
-  const [upgrades, setUpgrades] = useState([
+
+  const initialUpgrades = [
     {
       id: 1,
       name: "Tractor",
@@ -71,8 +72,9 @@ export default function Game() {
         "Provides a steady supply of water to your crops, boosting profits by 170%.",
       firstVisit: true,
     },
-  ])
-  const [croptypes, setCroptypes] = useState([
+  ]
+  const [upgrades, setUpgrades] = useState(initialUpgrades)
+  const initialCroptypes = [
     {
       id: 1,
       name: "Wheat",
@@ -103,7 +105,8 @@ export default function Game() {
         "Use the juicy, ripe tomatoes to supercharge your clicking speed and earn coins even faster.",
       firstVisit: true,
     },
-  ])
+  ]
+  const [croptypes, setCroptypes] = useState(initialCroptypes)
   // Checks which button is clicked to render the specific menu in Modal component
   const open = (button) => {
     setModalOpen(true)
@@ -232,6 +235,56 @@ export default function Game() {
     })
   }, [currency, croptypes])
 
+  // Retreive the localStorage if it exists
+  useEffect(() => {
+    const storedCurrency = localStorage.getItem("currency")
+    const storedCPS = localStorage.getItem("currencyPerSecond")
+    const storedCPC = localStorage.getItem("currencyPerClick")
+    const storedUpgrades = localStorage.getItem("upgrades")
+    const storedCroptypes = localStorage.getItem("croptypes")
+    storedCurrency && setCurrency(JSON.parse(storedCurrency))
+    storedCPS && setCurrencyPerSecond(JSON.parse(storedCPS))
+    storedCPC && setCurrencyPerClick(JSON.parse(storedCPC))
+    storedUpgrades && setUpgrades(JSON.parse(storedUpgrades))
+    storedCroptypes && setCroptypes(JSON.parse(storedCroptypes))
+    console.log("get Items")
+  }, [])
+
+  // Set the localStorage when currency, CPS and CPC changes
+  useEffect(() => {
+    currency > 0 && localStorage.setItem("currency", JSON.stringify(currency))
+    currencyPerSecond > 0 &&
+      localStorage.setItem(
+        "currencyPerSecond",
+        JSON.stringify(currencyPerSecond)
+      )
+    currencyPerClick > 0.1 &&
+      localStorage.setItem("currencyPerClick", JSON.stringify(currencyPerClick))
+    console.log("set Items")
+    upgrades.map((u) => {
+      if (u.owned > 0) {
+        localStorage.setItem("upgrades", JSON.stringify(upgrades))
+      }
+      return u
+    })
+    croptypes.map((crop) => {
+      if (crop.owned > 0) {
+        localStorage.setItem("croptypes", JSON.stringify(croptypes))
+      }
+      return crop
+    })
+  }, [currency, currencyPerSecond, currencyPerClick, upgrades, croptypes])
+
+  const clearLocalStorage = () => {
+    setCurrency(0)
+    setUpgrades(initialUpgrades)
+    setCroptypes(initialCroptypes)
+    setCurrencyPerSecond(0)
+    setCurrencyPerClick(0.1)
+    localStorage.clear()
+    close()
+  }
+
   const fadeInOut = {
     hidden: {
       opacity: 0,
@@ -266,6 +319,7 @@ export default function Game() {
             croptypes={croptypes}
             setCroptypes={setCroptypes}
             purchaseCroptype={purchaseCroptype}
+            clearLocalStorage={clearLocalStorage}
           />
         )}
       </AnimatePresence>
