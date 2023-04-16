@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(499.5)
+  const [currency, setCurrency] = useState(0)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [currencyPerClick, setCurrencyPerClick] = useState(0.1)
   const [modalOpen, setModalOpen] = useState(false)
