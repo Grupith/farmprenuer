@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
+import wheatIcon from "../assets/wheat-icon.png"
+import cornIcon from "../assets/corn-icon.png"
+import tomatoIcon from "../assets/tomato-icon.png"
+import backgroundImage from "../assets/farm-background.jpg"
+import woodenSign from "../assets/wooden-sign.png"
 
 export default function Game() {
   const [currency, setCurrency] = useState(0)
@@ -301,7 +306,13 @@ export default function Game() {
   }
 
   return (
-    <div className="bg-gray-800 h-screen text-gray-300 flex flex-col justify-between items-center overflow-x-hidden">
+    <div className="bg-gray-800 h-screen text-gray-300 flex flex-col justify-between items-center overflow-x-hidden relative">
+      <img
+        src={backgroundImage}
+        alt="wallpaper"
+        className="absolute w-fit h-full"
+      />
+      <div className="bg-black bg-opacity-60 h-screen w-screen absolute z-10"></div>
       <AnimatePresence initial={false} wait={true} onExitComplete={() => null}>
         {modalOpen && (
           <Modal
@@ -323,13 +334,23 @@ export default function Game() {
           />
         )}
       </AnimatePresence>
-      <div className="mt-2 flex flex-col items-center">
-        <h1 className="text-4xl font-bold text-gray-300 select-none">
+      <div className="mt-2 flex flex-col items-center relative z-20">
+        <h1 className="text-5xl font-bold text-gray-400 select-none">
           <span className="text-amber-600">Farm</span>prenuer
         </h1>
-        <p className="mt-32 font-semibold text-5xl text-green-700 w-screen text-center select-none">
-          ${currency.toFixed(2)}
-        </p>
+        <div className="relative mt-28">
+          <div className="relative">
+            <div className="absolute inset-0 bg-black opacity-40 mix-blend-multiply"></div>
+            <img
+              src={woodenSign}
+              alt="wooden sign background"
+              className="w-60 h-60 mix-blend-darken bg-transparent"
+            />
+          </div>
+          <p className="font-bold text-4xl text-green-600 select-none absolute top-12 left-14">
+            ${currency.toFixed(2)}
+          </p>
+        </div>
         {upgrades.some((u) => u.owned > 0) && (
           <p className=" text-xl w-screen text-center mt-6 select-none">
             Earns{" "}
@@ -340,21 +361,25 @@ export default function Game() {
           </p>
         )}
       </div>
-      <div>
+      <div className="z-20">
         <motion.button
           onClick={handleHarvestClick}
-          className="text-2xl p-10 rounded-2xl bg-amber-800 font-semibold shadow-xl select-none relative"
+          className="bg-none select-none relative"
           whileTap={{ scale: 1.05 }}
         >
-          Harvest
+          <img
+            src={wheatIcon}
+            alt="wheat crop"
+            className="w-28 h-28 select-none"
+          />
           {showClick && (
-            <p className=" text-xl w-fit text-center select-none m-auto py-2 font-semibold absolute">
+            <p className=" text-xl w-fit text-center select-none m-auto py-1 font-semibold absolute">
               +${currencyPerClick.toFixed(2)}
             </p>
           )}
         </motion.button>
       </div>
-      <ul className="flex space-x-2 mb-20">
+      <ul className="flex space-x-2 mb-20 z-20">
         <motion.li
           whileTap={{ scale: 1.05 }}
           className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none relative"
@@ -407,7 +432,7 @@ export default function Game() {
         </motion.li>
         <motion.li
           whileTap={{ scale: 1.05 }}
-          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none"
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none relative"
           onClick={() => (modalOpen ? close() : open("settings"))}
         >
           Settings
