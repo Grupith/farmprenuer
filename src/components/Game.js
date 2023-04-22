@@ -340,11 +340,11 @@ export default function Game() {
         </h1>
         <div className="relative mt-28">
           <div className="relative">
-            <div className="absolute inset-0 bg-black opacity-40 mix-blend-multiply"></div>
+            <div className="absolute inset-0 top-4 bottom-28 rounded-md shadow-xl bg-black opacity-40"></div>
             <img
               src={woodenSign}
               alt="wooden sign background"
-              className="w-60 h-60 mix-blend-darken bg-transparent"
+              className="w-60 h-60 mix-blend-darken"
             />
           </div>
           <p className="font-bold text-4xl text-green-600 select-none absolute top-12 left-14">
