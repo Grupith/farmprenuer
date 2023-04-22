@@ -205,7 +205,7 @@ export default function Game() {
     setCroptypes(updatedCroptypes)
 
     // Change the croptypes multiplier to the currencyPerClick
-    setCurrencyPerClick(croptype.multiplier)
+    setCurrencyPerClick((prevCPC) => prevCPC + croptype.multiplier)
   }
 
   // Show upgradePing on button if user has reached upgrade for the first time
