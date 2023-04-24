@@ -8,7 +8,7 @@ import backgroundImage from "../assets/farm-background.jpg"
 import woodenSign from "../assets/wooden-sign.png"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(0)
+  const [currency, setCurrency] = useState(5000)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [currencyPerClick, setCurrencyPerClick] = useState(0.1)
   const [modalOpen, setModalOpen] = useState(false)
@@ -16,6 +16,7 @@ export default function Game() {
   const [upgradePing, setUpgradePing] = useState(false)
   const [croptypePing, setCroptypePing] = useState(false)
   const [showClick, setShowClick] = useState(false)
+  const [croptypeImage, setCroptypeImage] = useState("")
 
   const initialUpgrades = [
     {
@@ -305,6 +306,21 @@ export default function Game() {
     },
   }
 
+  useEffect(() => {
+    croptypes.map((crop) => {
+      if (crop.name === "Wheat" || crop.owned > 0) {
+        setCroptypeImage("wheatIcon")
+      }
+      if (crop.name === "Corn" || crop.owned > 0) {
+        setCroptypeImage("cornIcon")
+      }
+      if (crop.name === "Tomato" || crop.owned > 0) {
+        setCroptypeImage("tomatoIcon")
+      }
+      return crop
+    })
+  }, [croptypes])
+
   return (
     <div className="bg-gray-800 h-screen text-gray-300 flex flex-col justify-between items-center overflow-x-hidden relative">
       <img
@@ -368,7 +384,7 @@ export default function Game() {
           whileTap={{ scale: 1.05 }}
         >
           <img
-            src={wheatIcon}
+            src={croptypeImage}
             alt="wheat crop"
             className="w-28 h-28 select-none"
           />
