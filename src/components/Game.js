@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Modal from "./Modal"
+import canolaIcon from "../assets/canola-icon.png"
 import wheatIcon from "../assets/wheat-icon.png"
 import cornIcon from "../assets/corn-icon.png"
 import tomatoIcon from "../assets/tomato-icon.png"
@@ -8,7 +9,7 @@ import backgroundImage from "../assets/farm-background.jpg"
 import woodenSign from "../assets/wooden-sign.png"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(5000)
+  const [currency, setCurrency] = useState(0)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [currencyPerClick, setCurrencyPerClick] = useState(0.1)
   const [modalOpen, setModalOpen] = useState(false)
@@ -90,6 +91,11 @@ export default function Game() {
       description:
         "Boosts your manual clicking rate with the power of freshly harvested wheat.",
       firstVisit: true,
+      icon: {
+        name: "wheatIcon",
+        src: wheatIcon,
+        alt: "Harvest Wheat Icon",
+      },
     },
     {
       id: 2,
@@ -100,6 +106,11 @@ export default function Game() {
       description:
         "The power of corn helps you click faster and earn more coins.",
       firstVisit: true,
+      icon: {
+        name: "cornIcon",
+        src: cornIcon,
+        alt: "Harvest Corn Icon",
+      },
     },
     {
       id: 3,
@@ -110,6 +121,11 @@ export default function Game() {
       description:
         "Use the juicy, ripe tomatoes to supercharge your clicking speed and earn coins even faster.",
       firstVisit: true,
+      icon: {
+        name: "tomatoIcon",
+        src: tomatoIcon,
+        alt: "Harvest Tomato Icon",
+      },
     },
   ]
   const [croptypes, setCroptypes] = useState(initialCroptypes)
@@ -307,18 +323,11 @@ export default function Game() {
   }
 
   useEffect(() => {
-    croptypes.map((crop) => {
-      if (crop.name === "Wheat" || crop.owned > 0) {
-        setCroptypeImage("wheatIcon")
-      }
-      if (crop.name === "Corn" || crop.owned > 0) {
-        setCroptypeImage("cornIcon")
-      }
-      if (crop.name === "Tomato" || crop.owned > 0) {
-        setCroptypeImage("tomatoIcon")
-      }
-      return crop
-    })
+    const ownedCroptypes = croptypes.filter((crop) => crop.owned >= 1)
+    if (ownedCroptypes.length > 0) {
+      const latestOwnedCrop = ownedCroptypes[ownedCroptypes.length - 1]
+      setCroptypeImage(latestOwnedCrop.icon)
+    }
   }, [croptypes])
 
   return (
@@ -384,8 +393,8 @@ export default function Game() {
           whileTap={{ scale: 1.05 }}
         >
           <img
-            src={croptypeImage}
-            alt="wheat crop"
+            src={croptypeImage ? croptypeImage.src : canolaIcon}
+            alt={croptypeImage ? croptypeImage.alt : "Harvest Canola Icon"}
             className="w-28 h-28 select-none"
           />
           {showClick && (
