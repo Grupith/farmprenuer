@@ -9,7 +9,7 @@ import backgroundImage from "../assets/farm-background.jpg"
 import woodenSign from "../assets/wooden-sign.png"
 
 export default function Game() {
-  const [currency, setCurrency] = useState(0)
+  const [currency, setCurrency] = useState(1000)
   const [currencyPerSecond, setCurrencyPerSecond] = useState(0)
   const [currencyPerClick, setCurrencyPerClick] = useState(0.1)
   const [modalOpen, setModalOpen] = useState(false)
@@ -407,7 +407,7 @@ export default function Game() {
       <ul className="flex space-x-2 mb-20 z-20">
         <motion.li
           whileTap={{ scale: 1.05 }}
-          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none relative"
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-800 shadow-md select-none relative"
           onClick={() =>
             setCroptypePing(false) && modalOpen ? close() : open("crop-type")
           }
@@ -428,7 +428,7 @@ export default function Game() {
         </motion.li>
         <motion.li
           whileTap={{ scale: 1.05 }}
-          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none relative"
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-800 shadow-md select-none relative"
           onClick={() =>
             setUpgradePing(false) && setActiveMenuButton(false) && modalOpen
               ? close()
@@ -457,7 +457,7 @@ export default function Game() {
         </motion.li>
         <motion.li
           whileTap={{ scale: 1.05 }}
-          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-700 shadow-md select-none relative"
+          className="cursor-pointer text-xl font-semibold p-4 rounded-xl bg-blue-800 shadow-md select-none relative"
           onClick={() => (modalOpen ? close() : open("settings"))}
         >
           Settings

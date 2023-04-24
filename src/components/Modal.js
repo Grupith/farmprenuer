@@ -25,7 +25,7 @@ export default function Modal({
         <Backdrop onClick={handleClose}>
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-800 rounded-xl fixed inset-0 h-fit w-fit m-auto select-none p-4"
+            className="bg-gray-900 rounded-xl fixed inset-0 h-fit w-fit m-auto select-none p-4"
             variants={fadeInOut}
             initial="hidden"
             animate="visible"
@@ -69,7 +69,7 @@ export default function Modal({
         <Backdrop onClick={handleClose}>
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-800 rounded-xl fixed inset-0 h-fit w-fit m-auto select-none p-4 pb-10"
+            className="bg-gray-900 rounded-xl fixed inset-0 h-fit w-fit m-auto select-none p-4 pb-10"
             variants={fadeInOut}
             initial="hidden"
             animate="visible"
@@ -115,7 +115,7 @@ export default function Modal({
         <Backdrop onClick={handleClose}>
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-800 rounded-xl fixed inset-0 h-80 w-64 m-auto select-none p-4"
+            className="bg-gray-900 rounded-xl fixed inset-0 h-80 w-64 m-auto select-none p-4"
             variants={fadeInOut}
             initial="hidden"
             animate="visible"
@@ -127,9 +127,12 @@ export default function Modal({
                 className="h-6 w-6 cursor-pointer"
               />
             </div>
-            <p className="text-2xl text-center">Settings</p>
+            <p className="text-2xl font-semibold text-center">Settings</p>
             <div className="flex flex-col justify-center text-center pt-6">
-              <p>This will DELETE all of your saved data. Are you sure?</p>
+              <p>
+                <span className="font-bold underline">Delete</span> all progress
+                and clear your localStorage on the browser.
+              </p>
               <button
                 onClick={clearLocalStorage}
                 className="bg-red-700 py-1 px-3 w-28 m-auto rounded-md mt-4"
