@@ -5,8 +5,7 @@ import canolaIcon from "../assets/canola-icon.png"
 import wheatIcon from "../assets/wheat-icon.png"
 import cornIcon from "../assets/corn-icon.png"
 import tomatoIcon from "../assets/tomato-icon.png"
-import backgroundImage from "../assets/farm-background.jpg"
-import woodenSign from "../assets/wooden-sign.png"
+import backgroundImage from "../assets/FarmGameWallpaper.jpg"
 
 export default function Game() {
   const [currency, setCurrency] = useState(1000)
@@ -337,7 +336,6 @@ export default function Game() {
         alt="wallpaper"
         className="absolute w-fit h-full"
       />
-      <div className="bg-black bg-opacity-60 h-screen w-screen absolute z-10"></div>
       <AnimatePresence initial={false} wait={true} onExitComplete={() => null}>
         {modalOpen && (
           <Modal
@@ -360,19 +358,11 @@ export default function Game() {
         )}
       </AnimatePresence>
       <div className="mt-2 flex flex-col items-center relative z-20">
-        <h1 className="text-5xl font-bold text-gray-400 select-none">
+        <h1 className="text-5xl font-bold text-gray-600 select-none">
           <span className="text-amber-600">Farm</span>prenuer
         </h1>
         <div className="relative mt-28">
-          <div className="relative">
-            <div className="absolute inset-0 top-4 bottom-28 rounded-md shadow-xl bg-black opacity-40"></div>
-            <img
-              src={woodenSign}
-              alt="wooden sign background"
-              className="w-60 h-60 mix-blend-darken"
-            />
-          </div>
-          <p className="font-bold text-4xl text-green-600 select-none absolute top-12 left-14">
+          <p className="font-bold text-3xl text-green-600 select-none">
             ${currency.toFixed(2)}
           </p>
         </div>
