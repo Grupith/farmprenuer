@@ -358,7 +358,7 @@ export default function Game() {
         )}
       </AnimatePresence>
       <div className="mt-2 flex flex-col items-center relative z-20">
-        <h1 className="text-5xl font-bold text-gray-600 select-none">
+        <h1 className="text-5xl font-bold text-gray-300 select-none">
           <span className="text-amber-600">Farm</span>prenuer
         </h1>
         <div className="relative mt-28">
@@ -367,7 +367,7 @@ export default function Game() {
           </p>
         </div>
         {upgrades.some((u) => u.owned > 0) && (
-          <p className=" text-xl w-screen text-center mt-6 select-none">
+          <p className=" text-lg w-screen italic text-center mt-32 select-none">
             Earns{" "}
             <span className="font-semibold">
               ${currencyPerSecond.toFixed(2)}
